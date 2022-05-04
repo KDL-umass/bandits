@@ -19,6 +19,23 @@ class MultiArmedBandit(object):
         return 0, True
 
 
+class ActionCountOnly(MultiArmedBandit):
+    """
+    This bandit simply contains the number of actions available, "pull" is assumed to occur externally e.g. on an env
+     that won't fit nicely into this hierarchy.
+    This is so the rest of the library requires no modification and can use this object hierarchy still.
+    """
+    def __init__(self, k):
+        super().__init__(k)
+        self.optimal = None
+
+    def reset(self):
+        raise NotImplementedError()
+
+    def pull(self, action):
+        raise NotImplementedError()
+
+
 class GaussianBandit(MultiArmedBandit):
     """
     Gaussian bandits model the reward of a given arm as normal distribution with
